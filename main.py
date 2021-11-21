@@ -1,6 +1,8 @@
 # %%
 import torch
 import string
+import igraph
+from top2vec import Top2Vec
 
 from transformers import BertTokenizer, BertForMaskedLM
 bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
@@ -99,3 +101,9 @@ def get_all_predictions(text_sentence, top_clean=5):
             'bart': bart,
             'electra': electra,
             'roberta': roberta}
+
+
+# ========================= GRAPH THEORY =================================
+G = igraph.Graph.Read_GML('hashtag_with_community.gml')
+Top2Vec_model = Top2Vec.load('Top2Vec_model')
+
