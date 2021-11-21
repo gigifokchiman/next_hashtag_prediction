@@ -8,8 +8,13 @@ from top2vec import *
 from awd_lstm import *
 from electra import *
 
-def get_all_predictions(text_sentence, top_clean=5):
+# load models here
 
+
+def get_all_predictions(text_sentence, top_clean=5):
+    """ redirect to the function to the right place """
+
+    # can use async here
 
     # # ========================= BERT =================================
     # print(text_sentence)
