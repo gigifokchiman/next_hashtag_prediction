@@ -5,55 +5,8 @@ import igraph
 from GraphTheory import *
 from LDAPrediction import *
 from top2vec import *
-from awdlstm import *
+from awd_lstm import *
 from electra import *
-
-# from transformers import BertTokenizer, BertForMaskedLM
-# bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-# bert_model = BertForMaskedLM.from_pretrained('bert-base-uncased').eval()
-#
-# from transformers import XLNetTokenizer, XLNetLMHeadModel
-# xlnet_tokenizer = XLNetTokenizer.from_pretrained('xlnet-base-cased')
-# xlnet_model = XLNetLMHeadModel.from_pretrained('xlnet-base-cased').eval()
-#
-# from transformers import XLMRobertaTokenizer, XLMRobertaForMaskedLM
-# xlmroberta_tokenizer = XLMRobertaTokenizer.from_pretrained('xlm-roberta-base')
-# xlmroberta_model = XLMRobertaForMaskedLM.from_pretrained('xlm-roberta-base').eval()
-#
-# from transformers import BartTokenizer, BartForConditionalGeneration
-# bart_tokenizer = BartTokenizer.from_pretrained('facebook/bart-large')
-# bart_model = BartForConditionalGeneration.from_pretrained('facebook/bart-large').eval()
-#
-# from transformers import ElectraTokenizer, ElectraForMaskedLM
-# electra_tokenizer = ElectraTokenizer.from_pretrained('google/electra-small-generator')
-# electra_model = ElectraForMaskedLM.from_pretrained('google/electra-small-generator').eval()
-#
-# from transformers import RobertaTokenizer, RobertaForMaskedLM
-# roberta_tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
-# roberta_model = RobertaForMaskedLM.from_pretrained('roberta-base').eval()
-#
-# top_k = 10
-
-# def decode(tokenizer, pred_idx, top_clean):
-#     ignore_tokens = string.punctuation + '[PAD]'
-#     tokens = []
-#     for w in pred_idx:
-#         token = ''.join(tokenizer.decode(w).split())
-#         if token not in ignore_tokens:
-#             tokens.append(token.replace('##', ''))
-#     return '\n'.join(tokens[:top_clean])
-#
-#
-# def encode(tokenizer, text_sentence, add_special_tokens=True):
-#     text_sentence = text_sentence.replace('<mask>', tokenizer.mask_token)
-#     # if <mask> is the last token, append a "." so that models dont predict punctuation.
-#     if tokenizer.mask_token == text_sentence.split()[-1]:
-#         text_sentence += ' .'
-#
-#     input_ids = torch.tensor([tokenizer.encode(text_sentence, add_special_tokens=add_special_tokens)])
-#     mask_idx = torch.where(input_ids == tokenizer.mask_token_id)[1].tolist()[0]
-#     return input_ids, mask_idx
-
 
 def get_all_predictions(text_sentence, top_clean=5):
 
