@@ -1,23 +1,10 @@
-import json
-import os
-import warnings
 import pandas as pd
 import numpy as np
-from typing import Dict, List
-import csv
-import itertools
-import pandas as pd
-import numpy as np
-import ast
-import csv
-from gensim.corpora import Dictionary
-from gensim.models.ldamodel import LdaModel
-from gensim.test.utils import datapath
 import gensim
-from gensim import corpora
 from gensim.corpora import Dictionary
 from gensim.models.ldamodel import LdaModel
 from gensim.test.utils import datapath
+
 list_of_hashtags = pd.read_csv('train_list_of_hashtag.csv')['hashtag_editted'].tolist()
 list_of_hashtags = [x.replace(' ','') for x in list_of_hashtags]
 list_of_hashtags = [x.split(',') for x in list_of_hashtags]
@@ -43,7 +30,7 @@ def prediction_by_LDA(lda_model, test_tweet, k=5):
         se = 0
         hashtag_topic = list(map(list, zip(*topic_distribution)))[0]
         updated_hashtag_topic = list(map(list, zip(*updated_topic_distribution[i])))[0]
-        for t in range(num_topic):
+        for t in range(30):
             if t in hashtag_topic:
                 if t in updated_hashtag_topic:
                     if prob_distribution[hashtag_topic.index(t)]>mean_prob:
@@ -56,7 +43,7 @@ def prediction_by_LDA(lda_model, test_tweet, k=5):
         se_list.append(se)
 
     k_smallest_index = np.argsort(se_list)
-    return [popular_hashtags[i] for i in k_smallest_index][:k]
+    return [popular_hashtags[i] for i in k_smallest_index if popular_hashtags[i] not in test_tweet][:k]
 
 if __name__ == '__main__':
     model = gensim.models.ldamodel.LdaModel.load(datapath("LDA_Model_for_next_hashtag_prediction"))
