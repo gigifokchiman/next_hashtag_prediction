@@ -5,7 +5,6 @@ from gensim.corpora import Dictionary
 from gensim.models.ldamodel import LdaModel
 from gensim.test.utils import datapath
 
-num_topic = 30
 list_of_hashtags = pd.read_csv('train_list_of_hashtag.csv')['hashtag_editted'].tolist()
 list_of_hashtags = [x.replace(' ','') for x in list_of_hashtags]
 list_of_hashtags = [x.split(',') for x in list_of_hashtags]
@@ -32,7 +31,7 @@ def prediction_by_LDA(lda_model, test_tweet, k=5):
         se = 0
         hashtag_topic = list(map(list, zip(*topic_distribution)))[0]
         updated_hashtag_topic = list(map(list, zip(*updated_topic_distribution[i])))[0]
-        for t in range(num_topic):
+        for t in range(30):
             if t in hashtag_topic:
                 if t in updated_hashtag_topic:
                     if prob_distribution[hashtag_topic.index(t)]>mean_prob:
