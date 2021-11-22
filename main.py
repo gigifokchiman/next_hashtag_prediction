@@ -14,7 +14,7 @@ import re
 awd_lstm_tokenizer, awd_lstm_model = load_awd_lstm_model()
 electra_tokenizer, electra_model = load_electra_model()
 top2vec_model = Top2Vec.load('Top2Vec_model')
-lda_model =
+lda_model = gensim.models.ldamodel.LdaModel.load(datapath("LDA_Model_for_next_hashtag_prediction"))
 graph_theory_model = igraph.Graph.Read_GML('hashtag_with_community.gml')
 
 
