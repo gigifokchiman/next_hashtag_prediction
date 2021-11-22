@@ -15,7 +15,7 @@ common_dictionary = Dictionary(list_of_hashtags)
 common_corpus = [common_dictionary.doc2bow(text) for text in list_of_hashtags]
 
 
-def prediction_by_LDA(lda_model, test_tweet, k=5):
+async def prediction_by_LDA(lda_model, test_tweet, k=5):
     test_corpus = common_dictionary.doc2bow(test_tweet)
     topic_distribution = lda_model[test_corpus]
     prob_distribution = list(map(list, zip(*topic_distribution)))[1]

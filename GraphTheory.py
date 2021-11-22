@@ -8,7 +8,7 @@ import igraph
 import pandas as pd
 
 
-def prediction_by_graph_theory(graph, nodes, no_of_predictions=5, epsilon=10 ** -5):
+async def prediction_by_graph_theory(graph, nodes, no_of_predictions=5, epsilon=10 ** -5):
     valid_nodes = [node.upper() for node in nodes if node.upper() in graph.vs['name']]
     if len(valid_nodes) == 0:
         return []
