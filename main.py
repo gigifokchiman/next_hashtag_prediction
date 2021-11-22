@@ -2,9 +2,10 @@
 import torch
 import string
 import igraph
-from GraphTheory import *
+from GraphTheory import prediction_by_graph_theory
 from LDAPrediction import *
-from Top2VecHashtagPrediction import *
+from top2vec import Top2Vec
+from Top2VecHashtagPrediction import prediction_by_top2vec
 from awd_lstm import prediction_by_awd_lstm, load_awd_lstm_model
 from electra import prediction_by_electra, load_electra_model
 import re
@@ -12,9 +13,9 @@ import re
 # load models here
 awd_lstm_tokenizer, awd_lstm_model = load_awd_lstm_model()
 electra_tokenizer, electra_model = load_electra_model()
-top2vec_model =
+top2vec_model = Top2Vec.load('Top2Vec_model')
 lda_model =
-graph_theory_model =
+graph_theory_model = igraph.Graph.Read_GML('hashtag_with_community.gml')
 
 
 async def get_all_predictions(text_sentence, number_of_predictions=5):
