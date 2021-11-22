@@ -14,6 +14,8 @@ xxx = load_awd_lstm_model()
 xxx = load_electra_model()
 
 
+electra_tokenizer = ElectraTokenizer.from_pretrained('google/electra-small-generator')
+
 def get_all_predictions(text_sentence, top_clean=5):
     """ redirect to the function to the right place """
 
