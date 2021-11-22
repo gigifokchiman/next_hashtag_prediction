@@ -17,7 +17,7 @@ def get_prediction_eos():
         input_text = ' '.join(request.json['input_text'].split())
         input_text += ' <mask>'
         top_k = request.json['top_k']
-        res = main.get_all_predictions(input_text, top_clean=int(top_k))
+        res = main.get_all_predictions(input_text, number_of_predictions=int(top_k))
         return app.response_class(response=json.dumps(res), status=200, mimetype='application/json')
     except Exception as error:
         err = str(error)
@@ -30,7 +30,7 @@ def get_prediction_mask():
     try:
         input_text = ' '.join(request.json['input_text'].split())
         top_k = request.json['top_k']
-        res = main.get_all_predictions(input_text, top_clean=int(top_k))
+        res = main.get_all_predictions(input_text, number_of_predictions=int(top_k))
         return app.response_class(response=json.dumps(res), status=200, mimetype='application/json')
     except Exception as error:
         err = str(error)
@@ -39,4 +39,4 @@ def get_prediction_mask():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=8000, use_reloader=False)
+    app.run(host='0.0.0.0', debug=True, port=8000, use_reloader=False, threaded=True)

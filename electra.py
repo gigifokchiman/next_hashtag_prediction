@@ -17,7 +17,7 @@ def load_electra_model():
     return electra_tokenizer, electra_model, hashtag_tokens
 
 
-async def prediction_by_electra(text_sentence,
+def prediction_by_electra(text_sentence,
                                 electra_tokenizer,
                                 electra_model,
                                 for_prediction,
@@ -69,7 +69,9 @@ async def prediction_by_electra(text_sentence,
 
     prediction_list.sort(key=lambda x: x[3], reverse=True)
 
-    return prediction_list[:number_of_predictions]
+    result = [i[0] for i in prediction_list[:number_of_predictions]]
+
+    return "\n".join(result)
 
 
 
