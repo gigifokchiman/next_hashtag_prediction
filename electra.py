@@ -12,7 +12,7 @@ def load_electra_model():
     #     pickle.dump(a, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     with open('res/hashtag_tokenised_1000.pkl', 'rb') as handle:
-        hashtag_tokens  = pickle.load(handle)
+        hashtag_tokens = pickle.load(handle)
 
     return electra_tokenizer, electra_model, hashtag_tokens
 
