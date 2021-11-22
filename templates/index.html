@@ -21,22 +21,22 @@
     <div class="overlay">
         <div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>
     </div>
-    <h2> Deep Learning in Action </h2>
+    <h2> DASC7600 Final Presentation </h2>
     <div class="row">
         <div class="col-sm-1"></div>
 
         <div class="col-sm-10">
             <center>
-                <h3>Word Prediction with Transformers</h3>
+                <h3>Hashtag Prediction with 5 Different Models</h3>
             </center>
             <div class="form-row">
                 <div class="form-group col-md-8">
                     <br>
-                    <h4>Type a word and press space to get suggestions</h4>
+                    <h4>Input your tweet to get hashtag suggestions</h4>
                 </div>
                 <div class="form-group col-md-4">
                     <br>
-                    <label for="max_words" id="label_max_words">Top k words: 5</label>
+                    <label for="max_words" id="label_max_words">Number of suggestions: 5</label>
                     <input type="range" class="custom-range" min="1" max="10" value="5" step="1" id="max_words">
                 </div>
             </div>
@@ -48,20 +48,20 @@
             <h4> Predictions </h4>
             <div class="form-row">
                 <div class="form-group col-md-2">
-                    <label for="text_paragraphs">BERT</label>
-                    <textarea class="form-control txt_response" id="text_bert" readonly></textarea>
+                    <label for="text_paragraphs">Graph Theory</label>
+                    <textarea class="form-control txt_response" id="text_graph_theory" readonly></textarea>
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="text_paragraphs">XLNET</label>
-                    <textarea class="form-control txt_response" id="text_xlnet" readonly></textarea>
+                    <label for="text_paragraphs">LDA</label>
+                    <textarea class="form-control txt_response" id="text_lda" readonly></textarea>
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="text_paragraphs">XLM-Roberta</label>
-                    <textarea class="form-control txt_response" id="text_xlm" readonly></textarea>
+                    <label for="text_paragraphs">Top2Vec</label>
+                    <textarea class="form-control txt_response" id="text_top2vec" readonly></textarea>
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="text_paragraphs">BART</label>
-                    <textarea class="form-control txt_response" id="text_bart" readonly></textarea>
+                    <label for="text_paragraphs">AWD_LSTM</label>
+                    <textarea class="form-control txt_response" id="text_awd_lstm" readonly></textarea>
                 </div>
                 <div class="form-group col-md-2">
                     <label for="text_paragraphs">ELECTRA</label>
@@ -73,60 +73,6 @@
                 </div>
             </div>
             <hr>
-
-            <!-- MASKED PREDICTION -->
-            <center>
-                <h3>Masked Word Prediction</h3>
-            </center>
-
-            <div class="form-row">
-                <div class="form-group col-md-8">
-                    <br>
-                    <h4>Type a sentence, include &lt;mask&gt; to predict the word and hit Predict.</h4>
-                </div>
-                <div class="form-group col-md-2">
-                    <br>
-                    <label for="max_words" id="label_max_words">Top k words: 5</label>
-                    <input type="range" class="custom-range" min="1" max="10" value="5" step="1" id="max_words_mask">
-                </div>
-                <div class="form-group col-md-2">
-                    <label></label>
-                    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-process">Predict</button>
-                </div>
-            </div>
-            <div class="form-row">
-                <textarea class="form-control txt_input" id="mask_input_text" rows="1"></textarea>
-            </div>
-
-            <h4> Predictions </h4>
-            <div class="form-row">
-                <div class="form-group col-md-2">
-                    <label for="text_paragraphs">BERT</label>
-                    <textarea class="form-control txt_response" id="mask_text_bert" readonly rows="1"></textarea>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="text_paragraphs">XLNET</label>
-                    <textarea class="form-control txt_response" id="mask_text_xlnet" readonly></textarea>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="text_paragraphs">XLM-Roberta</label>
-                    <textarea class="form-control txt_response" id="mask_text_xlm" readonly></textarea>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="text_paragraphs">BART</label>
-                    <textarea class="form-control txt_response" id="mask_text_bart" readonly></textarea>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="text_paragraphs">ELECTRA</label>
-                    <textarea class="form-control txt_response" id="mask_text_electra" readonly></textarea>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="text_paragraphs">ROBERTA</label>
-                    <textarea class="form-control txt_response" id="mask_text_roberta" readonly></textarea>
-                </div>
-            </div>
-
-
 
         </div>
         <div class="col-sm-1"></div>
