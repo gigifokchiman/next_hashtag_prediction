@@ -7,6 +7,7 @@ from LDAPrediction import *
 from Top2VecHashtagPrediction import *
 from awd_lstm import prediction_by_awd_lstm, load_awd_lstm_model
 from electra import prediction_by_electra, load_electra_model
+import re
 
 # load models here
 awd_lstm_tokenizer, awd_lstm_model = load_awd_lstm_model()
@@ -15,11 +16,16 @@ top2vec_model =
 lda_model =
 graph_theory_model =
 
+
 async def get_all_predictions(text_sentence, number_of_predictions=5):
     """ redirect to the function to the right place """
 
     # can use async here to call functions from different files
     # and then return the results
+
+    # cannot line break here
+    input_hashtags = re.findall(r"#(?![0-9]+)([a-zA-Z0-9_]+)(\b)", "I #yes try #1go #ohhh")
+    input_hashtags = [x[0].lower() for x in input_hashtags]
 
     electra = await prediction_by_electra(text_sentence, electra_tokenizer, electra_model, number_of_predictions)
     awd_lstm = await prediction_by_awd_lstm(text_sentence, awd_lstm_tokenizer, awd_lstm_model, number_of_predictions)
