@@ -25,10 +25,16 @@ def prediction_by_electra(text_sentence,
                                 use_cuda=False):
     text_sentence = ' '.join(text_sentence.split())
 
-    input_ids_raw = list(torch.tensor([electra_tokenizer.encode(text_sentence,
-                                                                add_special_tokens=True)]).numpy()[0][:-1])
+    # input_ids_raw = list(torch.tensor([electra_tokenizer.encode(text_sentence,
+    #                                                             add_special_tokens=True)]).numpy()[0][:-1])
+    #
+    # mask_token_id = electra_tokenizer.encode(electra_tokenizer.mask_token)[1]
 
-    mask_token_id = electra_tokenizer.encode(electra_tokenizer.mask_token)[1]
+    input_ids_raw = electra_tokenizer.encode(text_sentence, add_special_tokens=True)
+    # input_ids_raw = list(torch.tensor([electra_tokenizer.encode(text_sentence,
+    #                                         add_special_tokens=True)]).numpy()[0][:-1])
+
+    mask_token_id = electra_tokenizer.encode(electra_tokenizer.mask_token, add_special_tokens=False)[0]
 
     # mask_idx = torch.where(input_ids == tokenizer.mask_token_id)[1].tolist()[0]
 
@@ -46,8 +52,9 @@ def prediction_by_electra(text_sentence,
 
         for j, k in enumerate(current_id):
             # input_ids = torch.tensor([np.concatenate(([input_ids_raw[0], current_id[0:j]]))])
+            input_ids = torch.unsqueeze(torch.tensor(np.array([*input_ids_raw, *current_id[0:j]] + [mask_token_id])), 0)
 
-            input_ids = torch.tensor([np.array([*input_ids_raw, *current_id[0:j]] + [mask_token_id])])
+            # input_ids = torch.tensor([np.array([*input_ids_raw, *current_id[0:j]] + [mask_token_id])])
 
             with torch.no_grad():
                 if use_cuda:
