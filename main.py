@@ -1,23 +1,26 @@
 # %%
-import re
-
+import torch
+import string
 import igraph
+from GraphTheory import prediction_by_graph_theory
+from LDAPrediction import *
 from top2vec import Top2Vec
 
 from GraphTheory import prediction_by_graph_theory
 from Top2VecHashtagPrediction import prediction_by_top2vec
+from awd_lstm import prediction_by_awd_lstm, load_awd_lstm_model
 from electra import prediction_by_electra, load_electra_model
+import re
 
 # load models here
-# awd_lstm_tokenizer, awd_lstm_model = load_awd_lstm_model()
-
-electra_tokenizer, electra_model, for_prediction = load_electra_model()
+awd_lstm_tokenizer, awd_lstm_model = load_awd_lstm_model()
+electra_tokenizer, electra_model = load_electra_model()
 top2vec_model = Top2Vec.load('Top2Vec_model')
 
 graph_theory_model = igraph.Graph.Read_GML('hashtag_with_community.gml')
 
 
-def get_all_predictions(text_sentence, number_of_predictions=5):
+async def get_all_predictions(text_sentence, number_of_predictions=5):
     """ redirect to the function to the right place """
 
     # can use async here to call functions from different files
@@ -46,3 +49,4 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
 # ========================= GRAPH THEORY =================================
 G = igraph.Graph.Read_GML('hashtag_with_community.gml')
 Top2Vec_model = Top2Vec.load('Top2Vec_model')
+
