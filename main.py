@@ -30,14 +30,26 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
     input_hashtags = re.findall(r"#(?![0-9]+)([a-zA-Z0-9_]+)(\b)", "I #yes try #1go #ohhh")
     input_hashtags = [x[0].lower() for x in input_hashtags]
 
+
     electra = prediction_by_electra(text_sentence, electra_tokenizer, electra_model, for_prediction,
                                           number_of_predictions)
     awd_lstm = ""
     # awd_lstm = prediction_by_awd_lstm(text_sentence, awd_lstm_tokenizer, awd_lstm_model, number_of_predictions)
     top2vec = prediction_by_top2vec(top2vec_model, input_hashtags, number_of_predictions)
-    lda = ""
-    # lda = prediction_by_LDA(lda_model, input_hashtags, number_of_predictions)
-    graph_theory = prediction_by_graph_theory(graph_theory_model, input_hashtags, number_of_predictions)
+
+    if len(input_hashtags) > 2:
+        lda = ""
+        # lda = prediction_by_LDA(lda_model, input_hashtags, number_of_predictions)
+        graph_theory = prediction_by_graph_theory(graph_theory_model, input_hashtags, number_of_predictions)
+    else:
+        lda = ""
+        graph_theory = ""
+
+    print(graph_theory)
+    print(lda)
+    print(top2vec)
+    print(awd_lstm)
+    print(electra)
 
     return {'graph_theory': graph_theory,
             'lda': lda,
