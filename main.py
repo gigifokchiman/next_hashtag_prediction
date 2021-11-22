@@ -7,30 +7,13 @@ from LDAPrediction import *
 from Top2VecHashtagPrediction import *
 from awd_lstm import prediction_by_awd_lstm, load_awd_lstm_model
 from electra import prediction_by_electra, load_electra_model
-import asyncio
-
 
 # load models here
 awd_lstm_tokenizer, awd_lstm_model = load_awd_lstm_model()
 electra_tokenizer, electra_model = load_electra_model()
-
-
-
-# async def say_after(delay, what):
-#     await asyncio.sleep(delay)
-#     print(what)
-#
-# async def main():
-#     print(f"started at {time.strftime('%X')}")
-#
-#     await say_after(1, 'hello')
-#     await say_after(2, 'world')
-#
-#     print(f"finished at {time.strftime('%X')}")
-#
-# asyncio.run(main())
-async def test():
-    return True
+top2vec_model =
+lda_model =
+graph_theory_model =
 
 async def get_all_predictions(text_sentence, number_of_predictions=5):
     """ redirect to the function to the right place """
