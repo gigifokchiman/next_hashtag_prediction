@@ -25,13 +25,18 @@ def prediction_by_electra(text_sentence,
                           number_of_predictions=5,
                           use_cuda=False):
 
-    text_sentence = ' '.join(text_sentence.split())
+    text_sentence = text_sentence.lower()
+    text_sentence_split = text_sentence.split()
+    text_sentence = ' '.join(text_sentence_split)
     input_ids_raw = electra_tokenizer.encode(text_sentence, add_special_tokens=True)[:-1]
     mask_token_id = electra_tokenizer.encode(electra_tokenizer.mask_token, add_special_tokens=False)[0]
 
     sm = nn.Softmax(dim=1)
 
     prediction_list = list()
+
+    text_sentence_split_set = set(text_sentence_split)
+    for_prediction = [i for i in for_prediction if i[0].lower() not in text_sentence_split_set]
 
     # ==================================================================
     # Pad to same length
@@ -91,4 +96,5 @@ def prediction_by_electra(text_sentence,
 
     final_result = [i[0] for i in prediction_list[:number_of_predictions]]
 
-    return "\n".join(final_result)
+
+    return "\n".join(final_result).upper()

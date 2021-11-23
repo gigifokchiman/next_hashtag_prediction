@@ -51,6 +51,10 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
     print(input_hashtags)
 
     text_sentence += " #"
+    text_sentence = text_sentence.replace("#", "# ")
+    text_sentence = text_sentence.replace("  ", " ")
+
+    print(text_sentence)
 
     electra = prediction_by_electra(text_sentence, electra_tokenizer, electra_model, for_prediction,
                                     number_of_predictions)
@@ -59,9 +63,14 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
     top2vec = prediction_by_top2vec_tweet(top2vec_model, text_sentence, number_of_predictions)
     if len(input_hashtags) >= 1:
         # lda = ""
-        lda = prediction_by_LDA(lda_model, input_hashtags,
-                                common_dictionary, popular_hashtags,
-                                number_of_predictions)
+        # lda = prediction_by_LDA(lda_model, input_hashtags,
+        #                         common_dictionary, popular_hashtags,
+        #                         number_of_predictions)
+
+        lda = prediction_by_LDA(lda_model, ['AI', 'MACHINELEARNING'],
+                          common_dictionary, popular_hashtags,
+                          number_of_predictions)
+
         graph_theory = prediction_by_graph_theory(graph_theory_model, input_hashtags, number_of_predictions)
     else:
         lda = ""
