@@ -14,7 +14,7 @@ def prediction_by_graph_theory(graph, nodes, no_of_predictions=5, epsilon=10 ** 
         return []
 
     neighbors = [graph.neighbors(node.upper()) for node in valid_nodes]
-    g_sub = graph.subgraph([graph.vs[node]['name'] for node in set.union(*map(set, neighbors))])
+    g_sub = graph.subgraph([graph.vs[node]['name'] for node in set.union(*map(set, neighbors))] + valid_nodes)
     hashtags = [x['name'] for x in g_sub.vs if x['name'] not in valid_nodes]
     df = pd.DataFrame({'Hashtag': hashtags})
     for node in valid_nodes:
@@ -26,11 +26,10 @@ def prediction_by_graph_theory(graph, nodes, no_of_predictions=5, epsilon=10 ** 
     df['norm_Score'] = df['Score'] / sum(df['Score'])
     df.sort_values(by=['Score'], ascending=False, inplace=True)
     df = df.head(no_of_predictions)
-
     # return a list of hashtags
-    return df['Hashtag'].values
+    return "\n".join(df['Hashtag'].values)
 
 
 if __name__ == '__main__':
     G = igraph.Graph.Read_GML('hashtag_with_community.gml')
-    print(prediction_by_graph_theory(G, ['trump', 'biden', '123224345454545454']))
+    print(prediction_by_graph_theory(G, ['yes', 'biden', '123224345454545454']))

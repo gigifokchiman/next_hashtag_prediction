@@ -46,7 +46,3 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
             'electra': electra}
 
 
-# ========================= GRAPH THEORY =================================
-G = igraph.Graph.Read_GML('hashtag_with_community.gml')
-Top2Vec_model = Top2Vec.load('Top2Vec_model')
-
