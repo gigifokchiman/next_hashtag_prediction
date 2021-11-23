@@ -4,7 +4,6 @@ import string
 import igraph
 from GraphTheory import prediction_by_graph_theory
 from LDAPrediction import *
-from top2vec import Top2Vec
 import gensim
 from gensim.corpora import Dictionary
 from gensim.models.ldamodel import LdaModel
@@ -62,14 +61,9 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
     # awd_lstm = prediction_by_awd_lstm(text_sentence, awd_lstm_tokenizer, awd_lstm_model, number_of_predictions)
     top2vec = prediction_by_top2vec_tweet(top2vec_model, text_sentence, number_of_predictions)
     if len(input_hashtags) >= 1:
-        # lda = ""
-        # lda = prediction_by_LDA(lda_model, input_hashtags,
-        #                         common_dictionary, popular_hashtags,
-        #                         number_of_predictions)
-
-        lda = prediction_by_LDA(lda_model, ['AI', 'MACHINELEARNING'],
-                          common_dictionary, popular_hashtags,
-                          number_of_predictions)
+        lda = prediction_by_LDA(lda_model, input_hashtags,
+                                common_dictionary, popular_hashtags,
+                                number_of_predictions)
 
         graph_theory = prediction_by_graph_theory(graph_theory_model, input_hashtags, number_of_predictions)
     else:
