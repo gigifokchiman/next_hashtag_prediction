@@ -13,7 +13,7 @@ from electra import prediction_by_electra, load_electra_model
 import re
 
 # load models here
-# awd_lstm_tokenizer, awd_lstm_model = load_awd_lstm_model()
+awd_lstm_learner = load_awd_lstm_model()
 electra_tokenizer, electra_model, for_prediction = load_electra_model()
 top2vec_model = Top2Vec.load('Top2Vec_model')
 
@@ -30,11 +30,14 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
     input_hashtags = re.findall(r"#(?![0-9]+)([a-zA-Z0-9_]+)(\b)", "I #yes try #1go #ohhh")
     input_hashtags = [x[0].lower() for x in input_hashtags]
 
+    print(input_hashtags)
+
+    text_sentence += " #"
 
     electra = prediction_by_electra(text_sentence, electra_tokenizer, electra_model, for_prediction,
                                           number_of_predictions)
-    awd_lstm = ""
-    # awd_lstm = prediction_by_awd_lstm(text_sentence, awd_lstm_tokenizer, awd_lstm_model, number_of_predictions)
+
+    awd_lstm = prediction_by_awd_lstm(text_sentence, awd_lstm_learner, number_of_predictions)
     top2vec = prediction_by_top2vec(top2vec_model, input_hashtags, number_of_predictions)
 
     if len(input_hashtags) > 2:
