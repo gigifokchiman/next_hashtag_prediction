@@ -57,12 +57,16 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
     awd_lstm = ""
     # awd_lstm = prediction_by_awd_lstm(text_sentence, awd_lstm_learner, hashtag_location, number_of_predictions)
     top2vec = prediction_by_top2vec(top2vec_model, input_hashtags, number_of_predictions)
+
     if len(input_hashtags) >= 1:
         # lda = ""
         lda = prediction_by_LDA(lda_model, input_hashtags,
                                 common_dictionary, popular_hashtags,
                                 number_of_predictions)
         graph_theory = prediction_by_graph_theory(graph_theory_model, input_hashtags, number_of_predictions)
+    else:
+        lda = ""
+        graph_theory = ""
 
     return {'graph_theory': graph_theory,
             'lda': lda,
