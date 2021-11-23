@@ -2,6 +2,7 @@ import numpy as np
 
 
 def prediction_by_LDA(lda_model, hashtags, dictionary, popular_hashtags, k=5):
+    hashtags = [hashtag.upper() for hashtag in hashtags]
     test_corpus = dictionary.doc2bow(hashtags)
     topic_distribution = lda_model[test_corpus]
     temp_list = list(map(list, zip(*topic_distribution)))
