@@ -9,7 +9,7 @@ import gensim
 from gensim.corpora import Dictionary
 from gensim.models.ldamodel import LdaModel
 
-from Top2VecHashtagPrediction import prediction_by_top2vec
+from Top2VecHashtagPrediction import *
 from awd_lstm import prediction_by_awd_lstm, load_awd_lstm_model
 from electra import prediction_by_electra, load_electra_model
 import re
@@ -50,7 +50,7 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
                                     number_of_predictions)
     awd_lstm = ""
     # awd_lstm = prediction_by_awd_lstm(text_sentence, awd_lstm_tokenizer, awd_lstm_model, number_of_predictions)
-    top2vec = prediction_by_top2vec(top2vec_model, input_hashtags, number_of_predictions)
+    top2vec = prediction_by_top2vec_tweet(top2vec_model, text_sentence, number_of_predictions)
     if len(input_hashtags) >= 1:
         # lda = ""
         lda = prediction_by_LDA(lda_model, input_hashtags,
