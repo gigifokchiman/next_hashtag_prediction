@@ -43,8 +43,14 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
     # and then return the results
 
     # cannot line break here
-    input_hashtags = re.findall(r"#(?![0-9]+)([a-zA-Z0-9_]+)(\b)", "I #biden try #trump #america")
+    # input_hashtags = re.findall(r"#(?![0-9]+)([a-zA-Z0-9_]+)(\b)", "I #yes try #1go #ohhh")
+    input_hashtags = re.findall(r"#([a-zA-Z0-9_]+)(\b)", text_sentence)
+
     input_hashtags = [x[0].lower() for x in input_hashtags]
+
+    print(input_hashtags)
+
+    text_sentence += " #"
 
     electra = prediction_by_electra(text_sentence, electra_tokenizer, electra_model, for_prediction,
                                     number_of_predictions)
@@ -57,6 +63,9 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
                                 common_dictionary, popular_hashtags,
                                 number_of_predictions)
         graph_theory = prediction_by_graph_theory(graph_theory_model, input_hashtags, number_of_predictions)
+    else:
+        lda = ""
+        graph_theory = ""
 
     return {'graph_theory': graph_theory,
             'lda': lda,

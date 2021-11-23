@@ -1,8 +1,10 @@
-import torch
-from transformers import ElectraTokenizer, ElectraForMaskedLM
-import numpy as np
-import torch.nn as nn
 import pickle
+
+import numpy as np
+import torch
+import torch.nn as nn
+from transformers import ElectraTokenizer, ElectraForMaskedLM
+
 
 def load_electra_model():
     electra_tokenizer = ElectraTokenizer.from_pretrained('google/electra-small-generator')
@@ -16,69 +18,77 @@ def load_electra_model():
 
     return electra_tokenizer, electra_model, hashtag_tokens
 
-
 def prediction_by_electra(text_sentence,
-                                electra_tokenizer,
-                                electra_model,
-                                for_prediction,
-                                number_of_predictions=5,
-                                use_cuda=False):
+                          electra_tokenizer,
+                          electra_model,
+                          for_prediction,
+                          number_of_predictions=5,
+                          use_cuda=False):
+
     text_sentence = ' '.join(text_sentence.split())
-
-    # input_ids_raw = list(torch.tensor([electra_tokenizer.encode(text_sentence,
-    #                                                             add_special_tokens=True)]).numpy()[0][:-1])
-    #
-    # mask_token_id = electra_tokenizer.encode(electra_tokenizer.mask_token)[1]
-
-    input_ids_raw = electra_tokenizer.encode(text_sentence, add_special_tokens=True)
-    # input_ids_raw = list(torch.tensor([electra_tokenizer.encode(text_sentence,
-    #                                         add_special_tokens=True)]).numpy()[0][:-1])
-
+    input_ids_raw = electra_tokenizer.encode(text_sentence, add_special_tokens=True)[:-1]
     mask_token_id = electra_tokenizer.encode(electra_tokenizer.mask_token, add_special_tokens=False)[0]
 
-    # mask_idx = torch.where(input_ids == tokenizer.mask_token_id)[1].tolist()[0]
+    sm = nn.Softmax(dim=1)
 
     prediction_list = list()
 
-    for i in for_prediction:
+    # ==================================================================
+    # Pad to same length
+    max_length = max([f[3] for f in for_prediction])
 
-        # text_sentence += ' <mask>'
-        # input_ids, mask_idx = encode(electra_tokenizer, text_sentence, add_special_tokens=True)
-        current_id = i[2]
+    for m in range(max_length):
+        # print(m)
+        filtered_meta = [(f[0], f[1]) for f in for_prediction if f[3] == m + 1]
+        filtered = [f[2] for f in for_prediction if f[3] == m + 1]
+        filtered_arr = np.array(filtered)
 
-        # input_ids = np.concatenate((np.array(input_ids_raw)[0, :-1]))
+        if not filtered:
+            continue
 
-        prob = 1
+        prob = np.ones(shape=(len(filtered),))
 
-        for j, k in enumerate(current_id):
-            # input_ids = torch.tensor([np.concatenate(([input_ids_raw[0], current_id[0:j]]))])
-            input_ids = torch.unsqueeze(torch.tensor(np.array([*input_ids_raw, *current_id[0:j]] + [mask_token_id])), 0)
+        for n in range(m+1):
+            # print(n)
+            filtered_concat = np.array([
+                np.array([*input_ids_raw, *current_id[0:n]] + [mask_token_id])
+                for current_id in filtered
+            ])
+            input_ids = torch.tensor(filtered_concat)
 
-            # input_ids = torch.tensor([np.array([*input_ids_raw, *current_id[0:j]] + [mask_token_id])])
-
+            # print(input_ids.shape)
             with torch.no_grad():
-                if use_cuda:
-                    predict = electra_model(input_ids.cuda())[0]
-                else:
-                    predict = electra_model(input_ids)[0]
+                predict = electra_model(input_ids)[0]
+            res_raw = predict[:, -1, :]
+            res = sm(res_raw).detach().cpu().numpy()
 
-                res_raw = predict[0, len(input_ids_raw) + j, :]
-                m = nn.Softmax(dim=0)
-                res = m(res_raw)
-                prob *= res.cpu().numpy()[current_id[j]]
+            # filtered_arr[:, n]
+            #
+            # take = [
+            #   res[idx, filtered_arr]
+            #   for idx in range(res.shape[0])
+            # ]
+            # print(res.shape)
+            # print(filtered_arr[:, n].shape)
+            take = np.take_along_axis(res, np.expand_dims(filtered_arr[:, n], 1), 1)
+            # print(take.shape)
+            new_prob = np.squeeze(take, 1)
+            # print(f"m: {m}, n:{n}, mean: {new_prob.mean()}; std{new_prob.std()}")
+            # print(new_prob.std())
+            prob *= new_prob/new_prob.mean()
 
-        # adj = len(current_id) -1
-        # if adj > 0:
-        #   prob = np.power(prob, (1/adj))
-        # prob
+        # result = list(tuple(zip(filtered, prob)))
+        result = [(i[0], i[1], filtered[k], prob[k]) for k, i in enumerate(filtered_meta)]
+        prediction_list = [*prediction_list, *result]
 
-        prediction_list.append((i[0], i[1], i[2], prob))
+    # prediction_list.sort(key=lambda x: x[3], reverse=True)
+
+    # final_result = [i[0] for i in prediction_list[:number_of_predictions]]
+    #
+    # return prediction_list
 
     prediction_list.sort(key=lambda x: x[3], reverse=True)
 
-    result = [i[0] for i in prediction_list[:number_of_predictions]]
+    final_result = [i[0] for i in prediction_list[:number_of_predictions]]
 
-    return "\n".join(result)
-
-
-
+    return "\n".join(final_result)
