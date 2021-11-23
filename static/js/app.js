@@ -7,8 +7,8 @@ jQuery(document).ready(function () {
         $('#label_max_words').text('Number of suggestions: ' + slider.val())
     })
 
-    $('#input_text').on('keyup', function (e) {
-        if (e.key == ' ') {
+    $('#btn_predict').on('click', function (e) {
+        // if (e.key == ' ') {
             $.ajax({
                 url: '/get_end_predictions',
                 type: "post",
@@ -35,7 +35,7 @@ jQuery(document).ready(function () {
             }).fail(function (jsondata, textStatus, jqXHR) {
                 console.log(jsondata)
             });
-        }
+        // }
     })
 
 })
