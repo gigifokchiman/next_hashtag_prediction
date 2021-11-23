@@ -63,7 +63,7 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
     if len(input_hashtags) >= 1:
         lda = prediction_by_LDA(lda_model, input_hashtags,
                                 common_dictionary, popular_hashtags,
-                                number_of_predictions)
+                                hashtags_set, number_of_predictions)
 
         graph_theory = prediction_by_graph_theory(graph_theory_model, input_hashtags, number_of_predictions)
     else:

@@ -1,8 +1,12 @@
 import numpy as np
 
 
-def prediction_by_LDA(lda_model, hashtags, dictionary, popular_hashtags, k=5):
+def prediction_by_LDA(lda_model, hashtags, dictionary, popular_hashtags, hashtags_set, k=5):
     hashtags = [hashtag.upper() for hashtag in hashtags]
+    if len(set(hashtags).intersection(set(hashtags_set))) == 0:
+        return 'nil'
+    else:
+        hashtags = list(set(hashtags).intersection(set(hashtags_set)))
     test_corpus = dictionary.doc2bow(hashtags)
     topic_distribution = lda_model[test_corpus]
     temp_list = list(map(list, zip(*topic_distribution)))
@@ -29,10 +33,7 @@ def prediction_by_LDA(lda_model, hashtags, dictionary, popular_hashtags, k=5):
                                       *(prob_distribution[index]-mean_prob)/sd_prob
 
     k_smallest_index = np.argsort(se_list)
-    if len(set(hashtags).intersection(set(hashtags_set))) == 0:
-        return ['Nil']
-    else:
-        return "\n".join([popular_hashtags[i] for i in k_smallest_index if popular_hashtags[i] not in hashtags][:k])
+    return "\n".join([popular_hashtags[i] for i in k_smallest_index if popular_hashtags[i] not in hashtags][:k])
 
 
 if __name__ == '__main__':
@@ -51,4 +52,6 @@ if __name__ == '__main__':
     common_corpus = [common_dictionary.doc2bow(text) for text in list_of_hashtags]
 
     model = gensim.models.ldamodel.LdaModel.load("LDA_Model_for_next_hashtag_prediction")
-    print(prediction_by_LDA(model, ['AI', 'MACHINELEARNING'], common_dictionary, popular_hashtags))
+    print(prediction_by_LDA(model, ['1234556', 'MAC12HINELEARNING'],
+                            common_dictionary, popular_hashtags,
+                            hashtags_set))
