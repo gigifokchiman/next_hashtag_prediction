@@ -47,4 +47,4 @@ if __name__ == '__main__':
     common_corpus = [common_dictionary.doc2bow(text) for text in list_of_hashtags]
 
     model = gensim.models.ldamodel.LdaModel.load("LDA_Model_for_next_hashtag_prediction")
-    print(prediction_by_LDA(model, ['TRUMP', 'BIDEN'], common_dictionary, popular_hashtags))
+    print(prediction_by_LDA(model, ['AI', 'MACHINELEARNING'], common_dictionary, popular_hashtags))

@@ -22,14 +22,19 @@ def prediction_by_graph_theory(graph, nodes, no_of_predictions=5, epsilon=10 ** 
         df[node] += epsilon
         df[node] = df[node] / df[node].sum()
 
+    df['Hashtag'] = df['Hashtag'].apply(lambda x: x.strip())
+    agg_dict = {}
+    for node in valid_nodes:
+        agg_dict[node] = ['sum']
+    df = df.groupby(by='Hashtag').agg(agg_dict).reset_index()
+    df.columns = ['Hashtag'] + valid_nodes
     df['Score'] = df.iloc[:, 1:].product(axis=1)
     df['norm_Score'] = df['Score'] / sum(df['Score'])
     df.sort_values(by=['Score'], ascending=False, inplace=True)
     df = df.head(no_of_predictions)
-    # return a list of hashtags
     return "\n".join(df['Hashtag'].values)
 
 
 if __name__ == '__main__':
     G = igraph.Graph.Read_GML('hashtag_with_community.gml')
-    print(prediction_by_graph_theory(G, ['yes', 'biden', '123224345454545454']))
+    print(prediction_by_graph_theory(G, ['amc', 'stock']))
