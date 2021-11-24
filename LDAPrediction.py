@@ -33,7 +33,7 @@ def prediction_by_LDA(lda_model, hashtags, dictionary, popular_hashtags, hashtag
                                       *(prob_distribution[index]-mean_prob)/sd_prob
 
     k_smallest_index = np.argsort(se_list)
-    return "\n".join([popular_hashtags[i] for i in k_smallest_index if popular_hashtags[i] not in hashtags][:k])
+    return "\n".join(["#" + popular_hashtags[i] for i in k_smallest_index if popular_hashtags[i] not in hashtags][:k])
 
 
 if __name__ == '__main__':

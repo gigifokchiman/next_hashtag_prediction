@@ -28,7 +28,7 @@ def prediction_by_top2vec_tweet(top2vec_model, input_tweet, number_of_prediction
             if len(output) == number_of_predictions:
                 break
 
-    return "\n".join(output)
+    return "\n".join(["#" + hashtag for hashtag in output])
 
 
 if __name__ == '__main__':

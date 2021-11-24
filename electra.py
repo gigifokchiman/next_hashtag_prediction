@@ -94,7 +94,7 @@ def prediction_by_electra(text_sentence,
 
     prediction_list.sort(key=lambda x: x[3], reverse=True)
 
-    final_result = [i[0] for i in prediction_list[:number_of_predictions]]
-
+    final_result = ["#" + i[0] for i in prediction_list[:number_of_predictions]]
 
     return "\n".join(final_result).upper()
+

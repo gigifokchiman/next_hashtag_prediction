@@ -28,6 +28,7 @@ def prediction_by_graph_theory(graph, nodes, no_of_predictions=5, epsilon=10 ** 
         agg_dict[node] = ['sum']
     df = df.groupby(by='Hashtag').agg(agg_dict).reset_index()
     df.columns = ['Hashtag'] + valid_nodes
+    df['Hashtag'] = "#" + df['Hashtag'].astype(str)
     df['Score'] = df.iloc[:, 1:].product(axis=1)
     df['norm_Score'] = df['Score'] / sum(df['Score'])
     df.sort_values(by=['Score'], ascending=False, inplace=True)

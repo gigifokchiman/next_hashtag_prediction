@@ -42,6 +42,7 @@ h4 {
 .txt_response {
 	background-color: #FFF !important;
 	height: 150px !important;
+	font-size: 12px;
 }
 
 #max_paragraphs {
