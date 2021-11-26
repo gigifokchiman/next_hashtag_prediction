@@ -57,9 +57,11 @@ def get_all_predictions(text_sentence, number_of_predictions=5):
 
     electra = prediction_by_electra(text_sentence, electra_tokenizer, electra_model, for_prediction,
                                     number_of_predictions)
-    awd_lstm = prediction_by_electra(text_sentence, electra_tokenizer, electra_model, for_prediction,
-                                     number_of_predictions * 2)
-    awd_lstm = '\n'.join(awd_lstm.split('\n')[::2])
+    # awd_lstm = ""
+    # awd_lstm = prediction_by_electra(text_sentence, electra_tokenizer, electra_model, for_prediction,
+    #                                  number_of_predictions * 2)
+    # awd_lstm = '\n'.join(awd_lstm.split('\n')[::2])
+    awd_lstm = "only available on GPU"
     # awd_lstm = prediction_by_awd_lstm(text_sentence, awd_lstm_tokenizer, awd_lstm_model, number_of_predictions)
     top2vec = prediction_by_top2vec_tweet(top2vec_model, text_sentence, number_of_predictions)
     if len(input_hashtags) >= 1:
